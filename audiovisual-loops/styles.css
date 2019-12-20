@@ -1,0 +1,47 @@
+body {  
+  background-color: #000;
+}
+
+#buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+video.button {
+  position: absolute;
+  width: 240px;
+  height: 135px;
+  margin-top: -50px;
+  margin-left: -50px;
+  opacity: 0.5;
+  background-color: #fff;
+}
+
+video.button[data-index="0"] {
+  top: -75px;
+  left: -130px;
+  background-color: green;
+}
+
+video.button[data-index="1"] {
+  top: -75px;
+  left: 130px;
+  background-color: red;
+}
+
+video.button[data-index="2"] {
+  top: 75px;
+  left: -130px;
+  background-color: yellow;
+}
+
+video.button[data-index="3"] {
+  top: 75px;
+  left: 130px;
+  background-color: orange;
+}
+
+video.button.active {
+  opacity: 0.8;
+}

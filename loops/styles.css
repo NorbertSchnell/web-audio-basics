@@ -1,0 +1,47 @@
+body {  
+  background-color: #000;
+}
+
+#buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+div.button {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  border-radius: 50%;
+  opacity: 0.25;
+}
+
+div.button[data-index="0"] {
+  top: -75px;
+  left: -75px;
+  background-color: green;
+}
+
+div.button[data-index="1"] {
+  top: -75px;
+  left: 75px;
+  background-color: red;
+}
+
+div.button[data-index="2"] {
+  top: 75px;
+  left: -75px;
+  background-color: yellow;
+}
+
+div.button[data-index="3"] {
+  top: 75px;
+  left: 75px;
+  background-color: orange;
+}
+
+div.button.active {
+  opacity: 1;
+}
