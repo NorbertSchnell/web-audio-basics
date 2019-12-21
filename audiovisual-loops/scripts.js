@@ -1,6 +1,3 @@
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioContext = null;
-
 // parameters
 const files = ['loop-1.mp4', 'loop-2.mp4', 'loop-3.mp4', 'loop-4.mp4']; // video loop files
 const offsets = [0, 0, 0, 0.57]; // loop point offsets
@@ -30,7 +27,9 @@ window.addEventListener('touchstart', onButton);
 loadLoops();
 
 /***************************************************************************/
- 
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = null;
+
 class Loop {
   constructor(video, buffer, duration, offset = 0, level = 0) {
     this.video = video;
