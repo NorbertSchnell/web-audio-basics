@@ -42,6 +42,30 @@ video.button[data-index="3"] {
   background-color: orange;
 }
 
+video.button[data-index="4"] {
+  top: -75px;
+  left: 260px;
+  background-color: green;
+}
+
+video.button[data-index="5"] {
+  top: -75px;
+  left: 390px;
+  background-color: red;
+}
+
+video.button[data-index="6"] {
+  top: 75px;
+  left: 260px;
+  background-color: yellow;
+}
+
+video.button[data-index="7"] {
+  top: 75px;
+  left: 260px;
+  background-color: orange;
+}
+
 video.button.active {
   opacity: 0.8;
 }

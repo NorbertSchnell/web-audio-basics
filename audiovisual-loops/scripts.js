@@ -13,6 +13,8 @@ const tempoRef = 1 / 4; // <tempoRef> = <tempo>, e.g. ♩ = 60
 const timeSignature = 4 / 4;
 const loopLength = 2; // loop length in bars (as defined by signature)
 
+/***************************************************************************/
+
 const loopDuration = loopLength * timeSignature * 60 / (tempo * tempoRef); // loop duration in secs
 
 // state
@@ -24,11 +26,12 @@ let loopStartTime = 0;
 window.addEventListener('mousedown', onButton);
 window.addEventListener('touchstart', onButton);
 
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = null;
+
 loadLoops();
 
 /***************************************************************************/
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioContext = null;
 
 class Loop {
   constructor(video, buffer, duration, offset = 0, level = 0) {
