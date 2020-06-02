@@ -1,3 +1,6 @@
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = null;
+
 // parameters
 const files = ['loop-1.mp4', 'loop-2.mp4', 'loop-3.mp4', 'loop-4.mp4']; // video loop files
 const offsets = [0, 0, 0, 0.57]; // loop point offsets
@@ -25,9 +28,6 @@ let loopStartTime = 0;
 
 window.addEventListener('mousedown', onButton);
 window.addEventListener('touchstart', onButton);
-
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioContext = null;
 
 loadLoops();
 

@@ -1,3 +1,6 @@
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = null;
+
 const sounds = ['perc.wav', 'bass.wav', 'harm.wav', 'melo.wav'];
 const levels = [0, 0, -3, -10];
 const loops = [];
@@ -11,8 +14,6 @@ window.addEventListener('touchstart', onButton);
 loadLoops();
 
 /***************************************************************************/
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioContext = null;
 
 class Loop {
   constructor(buffer, button, level = 0) {
