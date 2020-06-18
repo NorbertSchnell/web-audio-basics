@@ -58,8 +58,12 @@ function displayIntensity() {
     const intensity = Math.sqrt(sum / size); 
 
     // map intensity to opacity
-    const opacity = Math.min(1, 0.4 + 10 * intensity);
+    const opacity = Math.min(1, 0.5 + 10 * intensity);
     circle.style.opacity = opacity;
+
+    const width = 100 + 500 * intensity;
+    circle.style.width = circle.style.height = `${width}px`;
+    circle.style.marginTop = circle.style.marginLeft = `${-0.5 * width}px`;
   }
 
   window.requestAnimationFrame(displayIntensity);
