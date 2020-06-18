@@ -1,0 +1,16 @@
+body {  
+  background-color: #000;
+}
+
+#circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  border-radius: 50%;
+  background-color: yellow;
+  opacity: 0.25;
+}
