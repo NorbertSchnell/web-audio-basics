@@ -16,7 +16,7 @@ function onClick(evt) {
     // create audio context and analyser node
     audioContext = new AudioContext();
     analyser = audioContext.createAnalyser();
-    analyserArray = new Float32Array(analyser.fftSize);
+    analyserArray = new Uint8Array(analyser.fftSize);
 
     // get microphone stream
     navigator.mediaDevices.getUserMedia({ audio: true })
@@ -39,31 +39,34 @@ function onClick(evt) {
     enabled = false;
     circle.classList.remove('active');
     circle.style.opacity = 0.25;
+    circle.style.width = circle.style.height = '100px';
+    circle.style.marginTop = circle.style.marginLeft = '-50px';
   }
 }
 
 function displayIntensity() {
-  if (enabled && analyser.getFloatTimeDomainData) {
-    analyser.getFloatTimeDomainData(analyserArray);
+  if (enabled) {
+    analyser.getByteTimeDomainData(analyserArray);
 
     // calculate intensity
-    const size = analyser.fftSize;
+    const analyserSize = analyser.fftSize;
     let sum = 0;
 
-    for (let i = 0; i < size; i++) {
-      const value = analyserArray[i];
+    for (let i = 0; i < analyserSize; i++) {
+      const value = (analyserArray[i] - 128) / 128;
       sum += (value * value);
     }
 
-    const intensity = Math.sqrt(sum / size); 
+    const intensity = Math.sqrt(sum / analyserSize); // raw intensity
 
-    // map intensity to opacity
+    // map intensity to circle opacity
     const opacity = Math.min(1, 0.5 + 10 * intensity);
     circle.style.opacity = opacity;
 
-    const width = 100 + 500 * intensity;
-    circle.style.width = circle.style.height = `${width}px`;
-    circle.style.marginTop = circle.style.marginLeft = `${-0.5 * width}px`;
+    // map intensity to circle size
+    const circleSize = 100 + 400 * intensity;
+    circle.style.width = circle.style.height = `${circleSize}px`;
+    circle.style.marginTop = circle.style.marginLeft = `${-0.5 * circleSize}px`;
   }
 
   window.requestAnimationFrame(displayIntensity);
