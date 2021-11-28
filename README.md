@@ -1,7 +1,9 @@
 # Web Audio Basics
 - https://norbertschnell.github.io/web-audio-basics/
 
-# Further Examples and Code
+# Web Audio Resources
+
+## Example Applications
 
 ### Google Experiments / Chrome Labs
 - [Blob Opera](https://artsandculture.google.com/experiment/blob-opera/AAHWrq360NcGbw)
@@ -17,7 +19,7 @@
 - [Learn Music](https://learningmusic.ableton.com/)
 - [Learning Synths](https://learningsynths.ableton.com/)
 
-## Misc
+### Misc
 - [Acoustic Atlas](https://www.acousticatlas.de/)
 - [Web Audio Weekly](https://www.webaudioweekly.com/)
 
