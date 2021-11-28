@@ -31,8 +31,8 @@
 - [Web Audio API Specification](https://webaudio.github.io/web-audio-api/)
 
 # Code Examples
-- [Basics](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
-- [Advanced](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques)
+- [MDN Basics](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
+- [MDN Advanced Techniques](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques)
 - [Boris Smus' Examples (2013)](https://webaudioapi.com/)
 - [BBC Prototyping](https://webaudio.prototyping.bbc.co.uk/)
 
