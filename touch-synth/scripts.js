@@ -25,12 +25,37 @@ class Synth {
     env.gain.linearRampToValueAtTime(1, time + fadeTime);
     this.env = env;
 
+    const lowpass = audioContext.createBiquadFilter();
+    lowpass.connect(env);
+    lowpass.type = 'lowpass';
+    lowpass.frequency.value = 750; // Hz
+    lowpass.Q.value = 3;
+    this.lowpass = lowpass;
+
     const buzz = audioContext.createOscillator();
-    buzz.connect(env);
+    buzz.connect(lowpass);
     buzz.type = 'sawtooth';
-    buzz.frequency.value = 220;
+    buzz.frequency.value = 220; // Hz
     buzz.start(time);
     this.buzz = buzz;
+
+    this.minOscFreq = 50;
+    this.maxOscFreq = 1000;
+    this.logOscRatio = Math.log(this.maxOscFreq / this.minOscFreq);
+
+    this.minCutoffFreq = 20;
+    this.maxCutoffFreq = 4000;
+    this.logCutoffRatio = Math.log(this.maxCutoffFreq / this.minCutoffFreq);
+  }
+
+  // set osc freq from linear factor between 0 and 1
+  setFreq(factor) {
+    this.buzz.frequency.value = this.minOscFreq * Math.exp(this.logOscRatio * factor);
+  }
+
+  // set lowpass cutoff freq from linear factor between 0 and 1
+  setCutoff(factor) {
+    this.lowpass.frequency.value = this.minCutoffFreq * Math.exp(this.logCutoffRatio * factor);
   }
 
   stop() {
@@ -49,14 +74,19 @@ const fingerRadius = 40;
 
 class Finger {
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
     this.synth = new Synth();
+    this.move(x, y);
   }
 
   move(x, y) {
     this.x = x;
     this.y = y;
+
+    const freqFactor = x / canvas.width;
+    this.synth.setFreq(freqFactor);
+
+    const cutoffFactor = 1 - (y / canvas.height);
+    this.synth.setCutoff(cutoffFactor);
   }
 
   delete(x, y) {
