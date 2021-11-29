@@ -29,7 +29,7 @@ class Synth {
     lowpass.connect(env);
     lowpass.type = 'lowpass';
     lowpass.frequency.value = 750; // Hz
-    lowpass.Q.value = 3;
+    lowpass.Q.value = 12;
     this.lowpass = lowpass;
 
     const buzz = audioContext.createOscillator();
@@ -39,7 +39,7 @@ class Synth {
     buzz.start(time);
     this.buzz = buzz;
 
-    this.minOscFreq = 50;
+    this.minOscFreq = 20;
     this.maxOscFreq = 1000;
     this.logOscRatio = Math.log(this.maxOscFreq / this.minOscFreq);
 
