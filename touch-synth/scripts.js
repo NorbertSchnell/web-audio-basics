@@ -5,7 +5,44 @@ const canvas = document.getElementById("canvas");
 const overlay = document.getElementById("overlay");
 
 /********************************************
- * multi-touch fingers
+ * Web Auddio context
+ */
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = new AudioContext();
+
+/********************************************
+ * monophonic synth
+ */
+const fadeTime = 0.250;
+
+class Synth {
+  constructor() {
+    const time = audioContext.currentTime;
+    const env = audioContext.createGain();
+    env.connect(audioContext.destination);
+    //env.gain.value = 0;
+    env.gain.setValueAtTime(0, time);
+    env.gain.linearRampToValueAtTime(1, time + fadeTime);
+    this.env = env;
+
+    const buzz = audioContext.createOscillator();
+    buzz.connect(env);
+    buzz.type = 'sawtooth';
+    buzz.frequency.value = 220;
+    buzz.start(time);
+    this.buzz = buzz;
+  }
+
+  stop() {
+    const time = audioContext.currentTime;
+    this.env.gain.cancelAndHoldAtTime(time);
+    this.env.gain.linearRampToValueAtTime(0, time + fadeTime);
+    this.buzz.stop(time + fadeTime);
+  }
+}
+
+/********************************************
+ * touch finger
  */
 const fingers = new Map();
 const fingerRadius = 40;
@@ -14,6 +51,7 @@ class Finger {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.synth = new Synth();
   }
 
   move(x, y) {
@@ -22,7 +60,7 @@ class Finger {
   }
 
   delete(x, y) {
-
+    this.synth.stop();
   }
 }
 
@@ -31,24 +69,31 @@ class Finger {
  */
 overlay.addEventListener('click', main);
 
-function main() {
-  overlay.classList.add('hide');
-  window.addEventListener('resize', onResize);
-  console.log("Here we go!");
+async function main() {
+  if (audioContext) {
+    await audioContext.resume();
 
-  canvas.addEventListener('touchstart', onTouchstart);
-  canvas.addEventListener('touchmove', onTouchmove);
-  canvas.addEventListener('touchend', onTouchend);
-  canvas.addEventListener('touchcancel', onTouchend);
+    overlay.classList.add('hide');
+    console.log("Here we go!");
+  
+    window.addEventListener('resize', onResize);
 
-  onResize();
-  onAnimationFrame();
+    canvas.addEventListener('touchstart', onTouchstart);
+    canvas.addEventListener('touchmove', onTouchmove);
+    canvas.addEventListener('touchend', onTouchend);
+    canvas.addEventListener('touchcancel', onTouchend);
+  
+    onResize();
+    onAnimationFrame();  
+  } else {
+    console.error("web audio not available");
+  }
 }
 
 /********************************************
  * listeners
  */
- function onAnimationFrame() {
+function onAnimationFrame() {
   const ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);

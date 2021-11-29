@@ -1,7 +1,8 @@
 /********************************************
  * web audio context
  */
-let audioContext = audioContext = new AudioContext() | new window.webkitAudioContext();
+ const AudioContext = window.AudioContext || window.webkitAudioContext;
+ let audioContext = new AudioContext();
 
 if (audioContext) {
   await audioContext.resume();
