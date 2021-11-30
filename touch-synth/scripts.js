@@ -18,6 +18,7 @@ const fadeTime = 0.250;
 class Synth {
   constructor() {
     const time = audioContext.currentTime;
+
     const env = audioContext.createGain();
     env.connect(audioContext.destination);
     //env.gain.value = 0;
@@ -28,14 +29,14 @@ class Synth {
     const lowpass = audioContext.createBiquadFilter();
     lowpass.connect(env);
     lowpass.type = 'lowpass';
-    lowpass.frequency.value = 750; // Hz
-    lowpass.Q.value = 12;
+    lowpass.frequency.value = 1000; // Hz
+    lowpass.Q.value = 6;
     this.lowpass = lowpass;
 
     const buzz = audioContext.createOscillator();
     buzz.connect(lowpass);
     buzz.type = 'sawtooth';
-    buzz.frequency.value = 220; // Hz
+    buzz.frequency.value = 100; // Hz
     buzz.start(time);
     this.buzz = buzz;
 
@@ -46,6 +47,8 @@ class Synth {
     this.minCutoffFreq = 20;
     this.maxCutoffFreq = 4000;
     this.logCutoffRatio = Math.log(this.maxCutoffFreq / this.minCutoffFreq);
+
+    this.startTime = time;
   }
 
   // set osc freq from linear factor between 0 and 1
@@ -60,8 +63,12 @@ class Synth {
 
   stop() {
     const time = audioContext.currentTime;
-    this.env.gain.cancelAndHoldAtTime(time);
+
+    const fade = Math.min(1, (time - this.startTime) / fadeTime);
+    this.env.gain.cancelScheduledValues(time);
+    this.env.gain.setValueAtTime(fade, time);
     this.env.gain.linearRampToValueAtTime(0, time + fadeTime);
+
     this.buzz.stop(time + fadeTime);
   }
 }
