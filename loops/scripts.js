@@ -108,7 +108,7 @@ function loadLoops() {
   for (let i = 0; i < sounds.length; i++) {
     const request = new XMLHttpRequest();
     request.responseType = 'arraybuffer';
-    request.open('GET', sounds[i]);
+    request.open('GET', 'sounds/' + sounds[i]);
     request.addEventListener('load', () => {
       decodeContext.decodeAudioData(request.response, (buffer) => {
         const button = document.querySelector(`div.button[data-index="${i}"]`);

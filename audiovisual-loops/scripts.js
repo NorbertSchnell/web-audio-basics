@@ -120,7 +120,7 @@ function loadLoops() {
   for (let i = 0; i < files.length; i++) {
     const request = new XMLHttpRequest();
     request.responseType = 'arraybuffer';
-    request.open('GET', files[i]);
+    request.open('GET', 'movies/' + files[i]);
     request.addEventListener('load', () => {
       const videoBlob = new Blob([request.response], { type: "video/mp4" });
 

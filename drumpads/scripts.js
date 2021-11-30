@@ -1,17 +1,17 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioContext = null;
 
-const soundsFileNames = ['bd.wav', 'sd.wav', 'ch.wav', 'oh.wav'];
+const sounds = ['bd.wav', 'sd.wav', 'ch.wav', 'oh.wav'];
 const audioBuffers = [];
 
 window.addEventListener('mousedown', onButton);
 window.addEventListener('touchstart', onButton);
 
 // load audio buffers (samples)
-for (let i = 0; i < soundsFileNames.length; i++) {
+for (let i = 0; i < sounds.length; i++) {
   const request = new XMLHttpRequest();
   request.responseType = 'arraybuffer';
-  request.open('GET', soundsFileNames[i]);
+  request.open('GET', 'sounds/' + sounds[i]);
   request.addEventListener('load', () => {
     const ac = new AudioContext();
     ac.decodeAudioData(request.response, (buffer) => audioBuffers[i] = buffer);
@@ -41,4 +41,6 @@ function onButton(evt) {
 
   target.classList.add('active');
   setTimeout(() => target.classList.remove('active'), 200);
+
+  evt.preventDefault();
 }
