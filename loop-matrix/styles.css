@@ -1,0 +1,68 @@
+body {
+  background-color: black;
+}
+
+table#buttons {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  box-sizing: border-box;
+  border-width: 0;
+  border-spacing: 20px;
+  z-index: -1;
+}
+
+tr, td {
+  position: relative;
+  padding: 0;
+}
+
+.lock {
+  position: absolute;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50px;
+  border-color: turquoise;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+.lock.active {
+  opacity: 1;
+}
+
+.lock-row {
+  top: 0;
+  left: 20px;
+  height: 100px;
+}
+
+.lock-col {
+  top: 20px;
+  left: 0;
+  width: 100px;
+}
+
+.button {
+  position: relative;
+  box-sizing: border-box;
+  left: 1px;
+  top: 1px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: turquoise;
+  opacity: 0.25;
+}
+
+.button[data-row="0"] {}
+
+.button[data-row="1"] {}
+
+.button[data-row="2"] {}
+
+.button[data-row="3"] {}
+
+.button.active {
+  opacity: 1;
+}
