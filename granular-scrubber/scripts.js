@@ -1,26 +1,29 @@
 const headCanvas = document.getElementById('head-canvas');
 const waveCanvas = document.getElementById('wave-canvas');
 
+const height = 400; // canvas height
+let width = null; // canvas width (changes with window width)
+
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioContext = new AudioContext();;
 
-const audioRenderPeriod = 0.100; // render period of grains
-const grainPeriod = 0.005;
-const grainDuration = 0.080;
-const grainOffsetVariation = 0.010;
-
 const audioFileName = 'sound.wav'; // name of audio file to load
-const loopExtension = 1; // duration of audio added at the end of the buffer
-let buffer = null; // buffer loaded
+const audioBufferExtension = 1; // duration of audio added at the end of the buffer
+let audioBuffer = null; // audio buffer loaded
 
-const height = 400; // canvas height
-let width = null; // canvas width (changes with window width)
+const audioRenderPeriod = 0.100; // render period of grains
+
+// granular synthesis parameters
+const grainPeriod = 0.010;
+const grainDuration = 0.160;
+const grainOffsetVariation = 0.010;
 
 /**************************************************************************
  *
  *  main
  * 
  */
+// overlay window for starting audio
 const overlay = document.getElementById("overlay");
 overlay.addEventListener('click', main);
 
@@ -31,9 +34,9 @@ async function main() {
     overlay.classList.add('hide');
 
     resize();
-    loadAudioFile(audioFileName, (b) => {
-      buffer = b;
-      renderWaveform(waveCanvas, buffer, buffer.duration - loopExtension);
+    loadAudioFile(audioFileName, (buffer) => {
+      audioBuffer = buffer;
+      renderWaveform(waveCanvas, buffer, buffer.duration - audioBufferExtension);
     });
 
     window.addEventListener('resize', resize);
@@ -50,11 +53,6 @@ async function main() {
   } else {
     console.error("web audio not available");
   }
-}
-
-(b) => {
-  buffer = b;
-  renderWaveform(waveCanvas, buffer, buffer.duration - loopExtension);
 }
 
 /**************************************************************************
@@ -74,8 +72,8 @@ function resize() {
   headCanvas.width = width;
   headCanvas.height = height;
 
-  if (buffer) {
-    renderWaveform(waveCanvas, buffer, buffer.duration - loopExtension);
+  if (audioBuffer) {
+    renderWaveform(waveCanvas, audioBuffer, audioBuffer.duration - audioBufferExtension);
   }
 }
 
@@ -189,7 +187,7 @@ class GranularSynth {
     this.cutoffFactor = 0;
 
     this.minCutoffFreq = 200;
-    this.maxCutoffFreq = 20000;
+    this.maxCutoffFreq = 12000;
     this.logCutoffRatio = Math.log(this.maxCutoffFreq / this.minCutoffFreq);
 
     this.startTime = 0;
@@ -235,7 +233,7 @@ const heads = new Map(); // list of heads by touch id
 // a single play head (contains a granular synthesizer each)
 class Head {
   constructor(x, y) {
-    this.synth = new GranularSynth(buffer, buffer.duration - loopExtension, grainPeriod, grainDuration, grainOffsetVariation);
+    this.synth = new GranularSynth(audioBuffer, audioBuffer.duration - audioBufferExtension, grainPeriod, grainDuration, grainOffsetVariation);
     this.move(x, y);
   }
 
