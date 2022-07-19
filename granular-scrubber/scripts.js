@@ -86,7 +86,7 @@ function synthGrain(context, destination, buffer, time, offset, duration, gain, 
   env.gain.value = 0;
   env.gain.setValueAtTime(0, time);
   env.gain.linearRampToValueAtTime(gain, time + fadeTime);
-  env.gain.setValueAtTime(gain, duration - fadeTime);
+  env.gain.setValueAtTime(gain, time + duration - fadeTime);
   env.gain.linearRampToValueAtTime(0, time + duration);
   destination = env;
 
