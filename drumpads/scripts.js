@@ -1,30 +1,47 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioContext = null;
-
-const sounds = ['bd.wav', 'sd.wav', 'ch.wav', 'oh.wav'];
+const audioContext = new AudioContext();
+const audioFiles = ['bd.wav', 'sd.wav', 'ch.wav', 'oh.wav'];
 const audioBuffers = [];
 
 window.addEventListener('mousedown', onButton);
 window.addEventListener('touchstart', onButton);
 
-// load audio buffers (samples)
-for (let i = 0; i < sounds.length; i++) {
-  const request = new XMLHttpRequest();
-  request.responseType = 'arraybuffer';
-  request.open('GET', 'sounds/' + sounds[i]);
-  request.addEventListener('load', () => {
-    const ac = new AudioContext();
-    ac.decodeAudioData(request.response, (buffer) => audioBuffers[i] = buffer);
-  });
+loadAudioFiles();
 
-  request.send();
+// get promise for web audio check and start
+function requestWebAudio() {
+  return new Promise((resolve, reject) => {
+    if (audioContext && audioContext.state !== "running") {
+      audioContext.resume()
+        .then(() => resolve())
+        .catch(() => reject());
+    }
+  });
+}
+
+// load audio files into audio buffers
+let numBuffersReady = 0;
+
+function loadAudioFiles() {
+  return new Promise((resolve, reject) => {
+    for (let i = 0; i < audioFiles.length; i++) {
+      fetch('sounds/' + audioFiles[i])
+        .then(data => data.arrayBuffer())
+        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        .then(decodedAudio => {
+          audioBuffers[i] = decodedAudio;
+          numBuffersReady++;
+          if (numBuffersReady === audioFiles.length) {
+            resolve();
+          }
+        });
+    }
+  });
 }
 
 // play buffer by index
 function playSound(index) {
-  // create audio context on first button and keep it
-  if (audioContext === null)
-    audioContext = new AudioContext();
+  requestWebAudio(); // has to be called on user interaction (e.g. 'click' event)
 
   const source = audioContext.createBufferSource();
   source.connect(audioContext.destination);
@@ -41,6 +58,4 @@ function onButton(evt) {
 
   target.classList.add('active');
   setTimeout(() => target.classList.remove('active'), 200);
-
-  evt.preventDefault();
 }
