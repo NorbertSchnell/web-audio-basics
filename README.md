@@ -5,14 +5,10 @@
 
 ## Example Applications
 
-### Google Experiments / Chrome Labs
+### Google Experiments / Chrome Labs / Google Doodles
 - [Blob Opera](https://artsandculture.google.com/experiment/blob-opera/AAHWrq360NcGbw)
 - [Music Lab](https://musiclab.chromeexperiments.com/)
-
-### Google Doodles
-- [Hip Hop](https://www.google.com/doodles/44th-anniversary-of-the-birth-of-hip-hop)
 - [Clara Rockmores](https://www.google.com/doodles/clara-rockmores-105th-birthday)
-- [Robert Moog](https://www.google.com/doodles/robert-moogs-78th-birthday)
 
 ### Ableton Pedagogy
 - [Learn Music](https://learningmusic.ableton.com/)
