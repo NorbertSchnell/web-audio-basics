@@ -8,7 +8,6 @@
 ### Google Experiments / Chrome Labs
 - [Blob Opera](https://artsandculture.google.com/experiment/blob-opera/AAHWrq360NcGbw)
 - [Music Lab](https://musiclab.chromeexperiments.com/)
-- [Shiny Drum Machine](https://googlechromelabs.github.io/web-audio-samples/shiny-drum-machine/)
 
 ### Google Doodles
 - [Hip Hop](https://www.google.com/doodles/44th-anniversary-of-the-birth-of-hip-hop)
